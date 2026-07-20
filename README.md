@@ -6,9 +6,9 @@
 
 ## 📌 Overview
 
-Managing personal finances shouldn't require a paid app or a complicated setup. This project turns a Google Sheet into a full financial management system, accessible from anywhere through Telegram. Expenses, income, trades, and portfolio data all flow into a single spreadsheet — automatically categorised, tracked by month, and queryable on demand.
+Managing personal finances shouldn't require a paid app or a complicated setup. This project turns a Google Sheet into a full financial management system, accessible from anywhere through Telegram. Expenses and income all flow into a single spreadsheet — automatically categorised, tracked by month, and queryable on demand.
 
-Built to work around an NS schedule: async, mobile-first, and requiring minimal manual input.
+Built to work as a robust, lite alternative to popular workflow apps such as N8N that connects various APIs together. The project offers a quick, no frills way of tracking personal finances, whilst being open enough for relevant tinkering and expimentation.
 
 ---
 
@@ -73,7 +73,7 @@ Telegram Bot API
         ▼
 Google Apps Script (Webhook handler)
    ├── State Machine (awaiting_purchase / awaiting_income)
-   ├── AI Categorisation (OpenRouter API via UrlFetchApp)
+   ├── AI Categorisation (OpenRouter API via UrlFetchApp; Default is Gemini)
    ├── Inline Keyboard Builder
    └── Sheet Writer (appendRow / setValues / getRange)
         │
@@ -84,14 +84,7 @@ Google Sheets (Live Database)
    ├── Trade Journal (IBKR)
    └── Settings Sheet
 
-n8n (Self-hosted on Oracle Cloud Free Tier)
-   ├── IBKR Flex Query → Trade Journal
-   ├── Receipt OCR Pipeline (Gemini Vision)
-   ├── Daily Portfolio News Digest
-   └── SGX Dividend Tracker
-        │
-        ▼
-Cloudflare Tunnel (HTTPS webhooks, zero open ports)
+
 ```
 
 ---
@@ -104,11 +97,6 @@ Cloudflare Tunnel (HTTPS webhooks, zero open ports)
 | Backend runtime | Google Apps Script | Free |
 | Database | Google Sheets | Free |
 | AI categorisation | OpenRouter (free models) | Free |
-| Receipt OCR | Gemini Vision API (Google AI Studio) | Free |
-| Workflow automation | n8n (self-hosted) | Free |
-| Cloud hosting (n8n) | Oracle Cloud Always Free Tier | Free |
-| Tunnel / HTTPS | Cloudflare Tunnel | Free |
-| Trade data | IBKR Flex Query API | Free (with IBKR account) |
 
 **Total monthly infrastructure cost: $0**
 
@@ -121,60 +109,39 @@ Cloudflare Tunnel (HTTPS webhooks, zero open ports)
 - Telegram account + a bot token from [@BotFather](https://t.me/BotFather)
 - OpenRouter API key ([openrouter.ai](https://openrouter.ai)) — free tier is sufficient
 - Google AI Studio API key ([ai.google.dev](https://ai.google.dev)) — for receipt OCR
-- IBKR account with Flex Query access — for trade journal automation
 
 ### 1. Google Sheet Structure
 
-Create a Google Sheet with the following layout:
+1. You can find the Google Sheet Template via this link: PLACEHOLDER , make a copy
+2. Create a new page and rename it with the current year,"202x"
+3. Find the page "Main Template", click on any cell and press ctrl + A and ctrl + c to select and copy every cell, paste everything into the sheet named after the current year
+5. Press **Share** → Change access to **Anyone With Link: Editor**
 
-| Section | Location | Purpose |
-|---|---|---|
-| Expenditure table | Starting row 1 | Purchase entries (date, name, amount, category, month) |
-| Income table | Starting row 55 | Income entries (same fields, column G onwards) |
-| Settings sheet | Separate tab | Configuration: category lists, row counters, thresholds |
 
-In the Settings sheet, set **cell B6** to `0` — this tracks the income row offset and auto-increments with each entry.
+### 2. Credential Setup
+1. To set up the various credentials, click on the GUI button "Telegram Bot", there will be 5 credentials that you will need to fill within the sheet GUI
+2. The 'Bot Token' can be found by creating a telegram bot via the "Botfather" bot, the generated token will be an alphanumeric string with a set of numbers followed by a colon ":" and then a long string of jumbled letters and numbers
+3. To setup the webhook url, Open your Google Sheet → **Extensions → Apps Script**, press **deploy** →  **new deployment** → Select "Web App" under 'Select type' and Select 'Anyone' when prompted 'who has access' → **Deploy** (Agree to all of the Services) → copy the Deployment URL of the Web App and fill it in the GUI of the Google Sheet
+4. To setup the AI API, create an account with Openrouter, create a project and save the API key, fill it in the Google Sheet GUI. 
+5. The spreadsheet id can be found 'https://docs.google.com/spreadsheets/d/HERE!It is a long string of numbers and integers/edit?gid=2031327487#gid=2031327487'in the url of the Google Sheet database
+5. Lastly, fill in the Google Sheets url from the browser into the form
+6. Press "Set up Telegram Bot Integration ⚙️" to setup the connection via the Bot Token provided
+7. Lastly, press "Check Webhook Status 🔍" to validate the setup credentials
 
-### 2. Apps Script Setup
 
-1. Open your Google Sheet → **Extensions → Apps Script**
-2. Paste the project files into the editor
-3. Add Script Properties (⚙️ Project Settings → Script Properties):
-
-```
-TELEGRAM_BOT_TOKEN   = your_bot_token
-OPENROUTER_API_KEY   = your_openrouter_key
-TELEGRAM_CHAT_ID     = your_chat_id
-GEMINI_API_KEY       = your_gemini_key
-```
-
-4. Deploy as a **Web App** (Execute as: Me, Access: Anyone)
-5. Copy the deployment URL
-
-### 3. Register the Telegram Webhook
-
-```bash
-curl "https://api.telegram.org/bot<YOUR_TOKEN>/setWebhook?url=<YOUR_APPS_SCRIPT_URL>"
-```
-
-### 4. n8n Workflows (Optional)
-
-For trade journal, receipt OCR, and news digest automation:
-
-1. Self-host n8n on Oracle Cloud free tier (see [n8n Docker setup docs](https://docs.n8n.io/hosting/installation/docker/))
-2. Set up a Cloudflare Tunnel to expose your n8n instance via HTTPS
-3. Import the workflow JSON files from the `/n8n-workflows` folder
-4. Configure credentials: Google Sheets OAuth2, Telegram, IBKR Flex token
 
 ---
 
 ## 📱 Usage
 
-### Logging an Expense
-```
-You:  /spend
-Bot:  [Inline keyboard: Quick Add | Manual Entry]
+### Options Menu
+Press **/options** to open the options menu, there will be options to record purchases, income records as well as functions to check daily and monthly expenses
 
+### Logging an Expense
+
+Select the 
+```
+Bot:
 You:  Lunch $8.50
 Bot:  ✅ Added: Lunch ($8.50)
       Category: Food & Dining
