@@ -114,7 +114,7 @@ Google Sheets (Live Database)
 
 1. You can find the Google Sheet Template via this link: PLACEHOLDER , make a copy
 2. Create a new page and rename it with the current year,"202x"
-3. Find the page "Main Template", click on any cell and press ctrl + A and ctrl + c to select and copy every cell, paste everything into the sheet named after the current year
+3. Find the page "Main Template", click on any cell and press ctrl + A and ctrl + c to select and copy every cell, paste everything into the sheet named after the current year. Check that all the formulas in the cells are copied over.
 5. Press **Share** → Change access to **Anyone With Link: Editor**
 
 
@@ -123,12 +123,17 @@ Google Sheets (Live Database)
 2. The 'Bot Token' can be found by creating a telegram bot via the "Botfather" bot, the generated token will be an alphanumeric string with a set of numbers followed by a colon ":" and then a long string of jumbled letters and numbers
 3. To setup the webhook url, Open your Google Sheet → **Extensions → Apps Script**, press **deploy** →  **new deployment** → Select "Web App" under 'Select type' and Select 'Anyone' when prompted 'who has access' → **Deploy** (Agree to all of the Services) → copy the Deployment URL of the Web App and fill it in the GUI of the Google Sheet
 4. To setup the AI API, create an account with Openrouter, create a project and save the API key, fill it in the Google Sheet GUI. 
-5. The spreadsheet id can be found 'https://docs.google.com/spreadsheets/d/HERE!It is a long string of numbers and integers/edit?gid=2031327487#gid=2031327487'in the url of the Google Sheet database
+5. The spreadsheet id is the set of characters between'https://docs.google.com/spreadsheets/d/' and `/edit?gid=XXXXXXXXX#gid=XXXXXXXXX'in the url of the Google Sheet database
 5. Lastly, fill in the Google Sheets url from the browser into the form
 6. Press "Set up Telegram Bot Integration ⚙️" to setup the connection via the Bot Token provided
-7. Lastly, press "Check Webhook Status 🔍" to validate the setup credentials
+7. Press "Check Webhook Status 🔍" to validate the setup credentials
+8. Press **Deploy** on the App Script Menu → **Manage Deployment** → Change the Version to the latest Version
+9. Lastly, type anything into the chat for the ```dopost()``` function to save the telegram Chat ID for automated Alerts
 
-
+### 3. Maintenance Notes
+1. To create a database for a new year, create a page named with the new year, the code will automatically target the specific sheet for indexing
+2. Ensure that both the Google Appscript and Sheets sharing access are both able to be edited by "Anyone"
+3. If more income streams or expenditure categories are to be added. Simply add more headers next to the ones provided and drag the existing cell formulas over to include the newly added columns. Once the formulas are applied, the code will automatically index the new categories for analysis and tracking
 
 ---
 
@@ -141,30 +146,33 @@ Press **/options** to open the options menu, there will be options to record pur
 
 Select the 
 ```
-Bot:
-You:  Lunch $8.50
-Bot:  ✅ Added: Lunch ($8.50)
-      Category: Food & Dining
+Bot: 💰 Send purchase details:
+     Example: Chicken Rice 5.20
+You: Lunch $8.50
+Bot: Recorded Purchase
+     ✅ Added: lunch ($8.5) 
+     Category: food
 ```
 
 ### Logging Income
 ```
 You:  /income
-Bot:  [Inline keyboard: Tutoring | Dividends | Freelance | Other]
+Bot: 💰 Send income details:
+     Example: Tuition 280
 
 You:  Physics tutoring 80
-Bot:  ✅ Added: Physics tutoring ($80.00)
-      Income Source: Tutoring
+Bot:  Recorded Income
+      ✅ Added:  ($80) 
+      Income Source: tutoring
 ```
 
-### Receipt Scan
+### Checking Monthly Expenditure and Income Balance Sheet
 ```
-You:  [Photo of receipt]
 Bot:  ✅ Receipt processed
       3 items detected — total $24.70 added to Expenses
 ```
 
-### Portfolio Digest (automated, daily 7AM)
+### Daily
 ```
 Bot:  📊 Morning Brief — 20 Jul 2026
       DBS ▲ +1.2%  |  Neutral — no material events
@@ -178,12 +186,6 @@ Bot:  📊 Morning Brief — 20 Jul 2026
 
 - [ ] **Monthly spending summary** — automated Telegram report on the 1st of each month
 - [ ] **Budget threshold alerts** — notify when category spending exceeds a set limit
-- [ ] **Options trade tracker** — dedicated sheet section for wheel strategy (CSPs + covered calls)
-- [ ] **SGX dividend calendar** — auto-populate ex-dividend and payment dates from SGX announcements
-- [ ] **REIT health dashboard** — monthly DPU, gearing ratio, and occupancy tracking for S-REIT holdings
-- [ ] **Google Calendar integration** — sync payment due dates and tuition sessions into Calendar
-- [ ] **Multi-currency P&L reconciliation** — automatic SGD conversion for USD-denominated IBKR trades
-- [ ] **Notion sync** — mirror key financial summaries into a Notion dashboard
 
 ---
 
@@ -197,12 +199,6 @@ Bot:  📊 Morning Brief — 20 Jul 2026
 ├── AIUtils.gs               ← OpenRouter categorisation calls
 ├── StateManager.gs          ← User state persistence (PropertiesService)
 ├── Config.gs                ← Constants, sheet ranges, category defaults
-│
-└── n8n-workflows/
-    ├── ibkr-trade-journal.json      ← IBKR Flex Query → Google Sheets
-    ├── receipt-ocr-pipeline.json    ← Telegram photo → Gemini → Sheets
-    ├── portfolio-news-digest.json   ← Daily news → Telegram
-    └── sgx-dividend-tracker.json    ← SGX RSS → Sheets + Telegram alert
 ```
 
 ---
@@ -210,8 +206,7 @@ Bot:  📊 Morning Brief — 20 Jul 2026
 ## 🤝 Contributing
 
 This project is primarily built for personal use, but issues and PRs are welcome — especially around:
-- Additional broker integrations (Tiger Brokers, Moomoo)
-- New n8n workflow templates
+- Additional broker integrations (Tiger Brokers, Moomoo,IBKR flex query)
 - Google Sheets formula improvements for reporting
 
 ---
