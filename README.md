@@ -40,13 +40,10 @@ Built to work as a robust, lite alternative to popular workflow apps such as N8N
 - Row position tracked via a settings cell (`B6`) so the income table grows automatically without overwriting other data
 - Confirmation message includes source name, amount, and assigned income stream category
 
-
-
 ### 🧾 Receipt OCR Pipeline (via n8n + Gemini Vision)
 - Photo of a receipt sent to Telegram → n8n receives image → Gemini Vision extracts line items and total → structured data written to Google Sheets
 - Eliminates manual entry for physical receipts — photograph and forget
 - Handles supermarkets, hawker receipts, and retail invoices
-
 
 ### 📅 Monthly Tracking & Reporting
 - Every entry tagged with current month name via `getCurrentMonthName()`
@@ -135,35 +132,22 @@ Google Sheets (Live Database)
 ### Options Menu
 Press **/options** to open the options menu, there will be options to record purchases, income records as well as functions to check daily and monthly expenses
 
+<img width="313" height="350" alt="image" src="https://github.com/user-attachments/assets/b50a29ac-651a-4f4e-b504-f26f37db8278" />
+
 ### Logging an Expense
 
-Select the 
-```
-Bot: 💰 Send purchase details:
-     Example: Chicken Rice 5.20
-You: Lunch $8.50
-Bot: Recorded Purchase
-     ✅ Added: lunch ($8.5) 
-     Category: food
-```
+<img width="293" height="171" alt="image" src="https://github.com/user-attachments/assets/5c81c299-19b4-41a3-9afb-60d4c5569d39" />
+
 
 ### Logging Income
-```
-You:  /income
-Bot: 💰 Send income details:
-     Example: Tuition 280
 
-You:  Physics tutoring 80
-Bot:  Recorded Income
-      ✅ Added:  ($80) 
-      Income Source: tutoring
-```
+<img width="292" height="213" alt="image" src="https://github.com/user-attachments/assets/efa326d4-0363-4c19-8369-b021d95dafdd" />
 
-### Checking Monthly Expenditure and Income Balance Sheet
-```
-Bot:  ✅ Receipt processed
-      3 items detected — total $24.70 added to Expenses
-```
+
+### Checking Monthly Expenditure and Income Balance Sheet (💲Expenditure Breakdown)
+
+<img width="364" height="415" alt="image" src="https://github.com/user-attachments/assets/b7b98289-9a76-44cf-9ce4-dfc1335c50e6" />
+
 
 ### Checking Daily Expenditure
 ```
