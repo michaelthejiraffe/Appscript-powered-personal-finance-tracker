@@ -2,6 +2,9 @@
 
 > A fully serverless personal finance ecosystem built on **Google Apps Script**, powered by a **Telegram bot interface** and backed by **Google Sheets** as a live database. Designed to run entirely on free-tier infrastructure — no servers, no subscriptions, no monthly costs.
 
+link to Google Sheets:
+[Note: Copying the Google Sheet will also copy the relevant appscript files over to the users Google account]
+
 ---
 
 ## 📌 Overview
@@ -37,23 +40,13 @@ Built to work as a robust, lite alternative to popular workflow apps such as N8N
 - Row position tracked via a settings cell (`B6`) so the income table grows automatically without overwriting other data
 - Confirmation message includes source name, amount, and assigned income stream category
 
-### 📊 IBKR Trade Journal (via n8n)
-- Automated daily trade report pulled from **Interactive Brokers Flex Query API**
-- Workflow: schedule trigger → request Flex report → extract reference code → wait → download XML → parse → split trades → write to Google Sheets
-- Fields recorded per trade: `tradeDate`, `dateTime`, `symbol`, `description`, `quantity`, `buySell`, `tradePrice`, `tradeMoney`, `currency`, `fxRateToBase`, `tradeID`
-- Deduplication via `appendOrUpdate` matched on `tradeID` — safe to re-run daily without creating duplicate rows
-- Supports multi-currency trades with FX rate capture for SGD base currency reconciliation
+
 
 ### 🧾 Receipt OCR Pipeline (via n8n + Gemini Vision)
 - Photo of a receipt sent to Telegram → n8n receives image → Gemini Vision extracts line items and total → structured data written to Google Sheets
 - Eliminates manual entry for physical receipts — photograph and forget
 - Handles supermarkets, hawker receipts, and retail invoices
 
-### 📰 Financial News Digest
-- Daily portfolio news digest delivered to Telegram each morning
-- Covers tracked holdings: DBS, UOB, Keppel, CapitaLand Ascendas, Frasers Logistics, NetLink, Sasseur, AIMS APAC, VWRA, CSPX, Kraken Robotics
-- AI filters noise and flags only material events: earnings surprises, dividend changes, analyst downgrades, MAS policy actions
-- SGX dividend announcement tracker writes ex-dividend dates and amounts to Sheets and sends pre-date alerts
 
 ### 📅 Monthly Tracking & Reporting
 - Every entry tagged with current month name via `getCurrentMonthName()`
@@ -108,7 +101,7 @@ Google Sheets (Live Database)
 - Google account (Sheets + Apps Script)
 - Telegram account + a bot token from [@BotFather](https://t.me/BotFather)
 - OpenRouter API key ([openrouter.ai](https://openrouter.ai)) — free tier is sufficient
-- Google AI Studio API key ([ai.google.dev](https://ai.google.dev)) — for receipt OCR
+- Google AI Studio API key ([ai.google.dev](https://ai.google.dev)) — for free AI request
 
 ### 1. Google Sheet Structure
 
@@ -172,13 +165,15 @@ Bot:  ✅ Receipt processed
       3 items detected — total $24.70 added to Expenses
 ```
 
-### Daily
+### Checking Daily Expenditure
 ```
 Bot:  📊 Morning Brief — 20 Jul 2026
       DBS ▲ +1.2%  |  Neutral — no material events
       CSPX ▲ +0.4%  |  Neutral
       Kraken Robotics 🚨  |  Bullish — new navy contract announced
 ```
+
+### Checking Raw Expenditure Data
 
 ---
 
