@@ -150,34 +150,25 @@ Press **/options** to open the options menu, there will be options to record pur
 
 
 ### Checking Daily Expenditure
-```
-Bot:  📊 Morning Brief — 20 Jul 2026
-      DBS ▲ +1.2%  |  Neutral — no material events
-      CSPX ▲ +0.4%  |  Neutral
-      Kraken Robotics 🚨  |  Bullish — new navy contract announced
-```
+
+<img width="338" height="231" alt="image" src="https://github.com/user-attachments/assets/cea616d9-9bea-4297-a0b7-443440d40cb3" />
+
 
 ### Checking Raw Expenditure Data
 
----
-
-## 🗺️ Roadmap
-
-- [ ] **Monthly spending summary** — automated Telegram report on the 1st of each month
-- [ ] **Budget threshold alerts** — notify when category spending exceeds a set limit
+<img width="266" height="573" alt="image" src="https://github.com/user-attachments/assets/6eb1ce83-092e-4064-9ad0-276f97722da6" />
 
 ---
+
 
 ## 📁 Project Structure
 
 ```
 /
-├── Code.gs                  ← Main webhook handler and state machine
-├── SheetUtils.gs            ← Sheet read/write helpers
-├── TelegramUtils.gs         ← Message sending, keyboard builder
-├── AIUtils.gs               ← OpenRouter categorisation calls
-├── StateManager.gs          ← User state persistence (PropertiesService)
-├── Config.gs                ← Constants, sheet ranges, category defaults
+├── main.gs                  ← Main webhook handler and state machine
+├── config.gs                ← All relevant config functions
+├── setup.gs                 ← Functions for setting up credentials and webhook
+├── mcp_main.gs              ← OpenRouter categorisation calls
 ```
 
 ---
