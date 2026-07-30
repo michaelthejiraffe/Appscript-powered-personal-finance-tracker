@@ -2,7 +2,7 @@
 
 > A fully serverless personal finance ecosystem built on **Google Apps Script**, powered by a **Telegram bot interface** and backed by **Google Sheets** as a live database. Designed to run entirely on free-tier infrastructure — no servers, no subscriptions, no monthly costs.
 
-link to Google Sheets:
+link to Google Sheets: https://docs.google.com/spreadsheets/d/1PYpEZT3NYxPltFvUyPm_AbeOx4J4V6J8NUfR-vdbfQ4/edit?gid=0#gid=0
 [Note: Copying the Google Sheet will also copy the relevant appscript files over to the users Google account]
 
 ---
