@@ -37,13 +37,6 @@ Built to work as a robust, lite alternative to popular workflow apps such as N8N
 ### 💵 Income Tracking
 - Separate income logging flow with its own category set (freelance, tutoring, dividends, trading income, etc.)
 - Entries written to a dedicated income section of the sheet at a configurable fixed row offset
-- Row position tracked via a settings cell (`B6`) so the income table grows automatically without overwriting other data
-- Confirmation message includes source name, amount, and assigned income stream category
-
-### 🧾 Receipt OCR Pipeline (via n8n + Gemini Vision)
-- Photo of a receipt sent to Telegram → n8n receives image → Gemini Vision extracts line items and total → structured data written to Google Sheets
-- Eliminates manual entry for physical receipts — photograph and forget
-- Handles supermarkets, hawker receipts, and retail invoices
 
 ### 📅 Monthly Tracking & Reporting
 - Every entry tagged with current month name via `getCurrentMonthName()`
@@ -113,7 +106,7 @@ Google Sheets (Live Database)
 2. The 'Bot Token' can be found by creating a telegram bot via the "Botfather" bot, the generated token will be an alphanumeric string with a set of numbers followed by a colon ":" and then a long string of jumbled letters and numbers
 3. To setup the webhook url, Open your Google Sheet → **Extensions → Apps Script**, press **deploy** →  **new deployment** → Select "Web App" under 'Select type' and Select 'Anyone' when prompted 'who has access' → **Deploy** (Agree to all of the Services) → copy the Deployment URL of the Web App and fill it in the GUI of the Google Sheet
 4. To setup the AI API, create an account with Openrouter, create a project and save the API key, fill it in the Google Sheet GUI. 
-5. The spreadsheet id is the set of characters between'https://docs.google.com/spreadsheets/d/' and `/edit?gid=XXXXXXXXX#gid=XXXXXXXXX'in the url of the Google Sheet database
+5. Copy and paste the spreadsheet URL into the GUI to setup the telegram shortcut to the sheets as well as the Spreadsheet ID for indexing cells from the spreadsheet
 5. Lastly, fill in the Google Sheets url from the browser into the form
 6. Press "Set up Telegram Bot Integration ⚙️" to setup the connection via the Bot Token provided
 7. Press "Check Webhook Status 🔍" to validate the setup credentials
